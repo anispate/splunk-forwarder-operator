@@ -16,7 +16,6 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
 
-	"github.com/operator-framework/operator-sdk/pkg/leader"
 	"github.com/operator-framework/operator-sdk/pkg/log/zap"
 	"github.com/operator-framework/operator-sdk/pkg/metrics"
 	sdkVersion "github.com/operator-framework/operator-sdk/version"
@@ -71,13 +70,6 @@ func main() {
 	}
 
 	ctx := context.TODO()
-
-	// Become the leader before proceeding
-	err = leader.Become(ctx, "splunk-forwarder-operator-lock")
-	if err != nil {
-		log.Error(err, "")
-		os.Exit(1)
-	}
 
 	// Create a new Cmd to provide shared dependencies and start components
 	mgr, err := manager.New(cfg, manager.Options{
